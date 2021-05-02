@@ -554,13 +554,13 @@ diffmap_2010 = ggplot() +
                "National Parks and Reserves",
                "Major Lakes of Malawi"),
     values = c(
-      "Missing Data" = "#fe9929",
+      "Missing Data" = "#404040",
       "National Parks and Reserves" = "#78c679",
       "Major Lakes of Malawi" = "#74A9CF",
-      "-2" = "#feebe2",
-      "-1" = "#fbb4b9",
-      "0" = "#f768a1",
-      "1" = "#ae017e")
+      "-2" = "#7b3294",
+      "-1" = "#c2a5cf",
+      "0" = "#CCCCCC",
+      "1" = "#e66101")
   ) +
   scale_x_continuous(breaks = c(33,34,35,36)) +
   labs(title = "Difference in Adaptive Capacity Scores") +
@@ -612,7 +612,7 @@ fig5comp = fig5comp %>% mutate( diff = rp - or )
 fig5comppts = st_as_sf(fig5comp)
 # convert raster to vector points to simplify plotting and correlation testing
 
-plot(fig5comppts$or, fig5comppts$rp, xlab="Original Study", ylab="Reproduction")
+scatterplot = plot(fig5comppts$or, fig5comppts$rp, xlab="Original Study", ylab="Reproduction")
 # create scatterplot of original results and reproduction results
 
 cor.test(fig5comppts$or, fig5comppts$rp, method="spearman")
@@ -659,7 +659,15 @@ diffvuln_map
 ```
 ```{r saving difference maps}
 
-save(diffmap_2010, diffvuln_map, file = here("results","maps","maps.Rdata"))
+save(scatterplot, diffmap_2010, diffvuln_map, file = here("results","maps","maps.Rdata"))
+
+ggsave(
+  here("results","maps","scatterplot.png"),
+  plot = scatterplot,
+  width = 11,
+  height = 8.5,
+  units = "in"
+)
 
 ggsave(
   here("results","maps","diffmap2010.png"),
